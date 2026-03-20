@@ -1,0 +1,61 @@
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 16px;
+    background-color: #0d83f5;
+  }
+  
+  /*logo circular */
+  .logo-image {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    cursor: pointer;
+  }
+  
+  /* Right-side container */
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  /* Avatar */
+  .nav-user-area {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  /* Circular avatar with initials */
+  .nav-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: #ff9800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+  }
+  
+  /* Logout button */
+  .nav-logout-btn {
+    padding: 6px 14px;
+    border: none;
+    border-radius: 4px;
+    background-color: #ffb300;
+    color: #333;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  
+  .nav-logout-btn:hover {
+    background-color: #ffa000;
+  }
+  

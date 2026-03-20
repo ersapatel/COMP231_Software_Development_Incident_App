@@ -1,0 +1,68 @@
+
+.login,
+.register {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 1rem;
+}
+
+/* Page header text for Login / Register */
+.login header,
+.register header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.forms {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+/* ===== Login / Register form card ===== */
+
+.form {
+  display: flex;
+  flex-direction: column;
+  background-color: #0a81e9;
+  padding: 1.5rem;
+  border-radius: 8px;
+  width: 300px;
+  color: white;
+}
+
+.form input,
+.form select {
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  border-radius: 4px;
+  border: none;
+}
+
+.form button {
+  padding: 0.5rem;
+  cursor: pointer;
+  border-radius: 4px;
+  border: none;
+}
+
+/* ===== Messages ===== */
+
+.error {
+  color: #ff4d4f;
+  margin-top: 0.5rem;
+}
+
+.success {
+  color: #4caf50;
+  margin-top: 0.5rem;
+}
+
+/* ===== Extra buttons under the form ===== */
+
+.registerBtn,
+.loginBtn {
+  margin-top: 10px;
+}
