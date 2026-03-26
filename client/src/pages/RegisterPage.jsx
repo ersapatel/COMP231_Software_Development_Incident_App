@@ -4,7 +4,7 @@ const Register = ({ onRegister }) => {
   return (
     <div className="register">
       <header>
-        <h1>Welcome to Incident Management Application</h1>
+        <h1>Welcome to Incident Management App</h1>
         <p>Manage incidents efficiently and securely.</p>
       </header>
       <div className="forms">

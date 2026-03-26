@@ -1,0 +1,100 @@
+/* Page wrapper */
+.create-incident-page {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  /* Top welcome title */
+  .create-incident-title {
+    margin: 0 0 16px 0;
+    font-size: 1.4rem;
+    font-weight: 600;
+  }
+  
+  /* Card container around the form */
+  .create-incident-card {
+    max-width: 420px;
+    width: 100%;
+  }
+  
+  .create-incident-form {
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .create-incident-form-title {
+    margin-top: 0;
+    margin-bottom: 16px;
+  }
+  
+  .create-incident-form label {
+    margin-bottom: 4px;
+    font-weight: 500;
+  }
+  
+  .create-incident-form input,
+  .create-incident-form select {
+    margin-bottom: 12px;
+  }
+  
+  .create-incident-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 8px;
+  }
+  
+  /* Primary button */
+  .createIncidentBtn {
+    background-color: #ffa600;
+    color: #1e2a78;
+    border: none;
+    border-radius: 4px;
+    padding: 0.6rem 1rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  
+  .createIncidentBtn:hover {
+    background-color: #cc8500;
+  }
+  
+  /* Secondary button */
+  .back-to-dashboardBtn {
+    background-color: #e0e0e0;
+    color: #333;
+    border: none;
+    border-radius: 4px;
+    padding: 0.6rem 1rem;
+    font-weight: 500;
+    cursor: pointer;
+  }
+  
+  .back-to-dashboardBtn:hover {
+    background-color: #cacaca;
+  }
+  
+  /* Success message */
+.success {
+    background-color: #d4edda;      
+    color: #155724;
+    padding: 10px 12px;
+    border-radius: 4px;
+    margin-top: 8px;
+    font-weight: 500;
+    text-align: left;
+    border: 1px solid #c3e6cb;
+  }
+  
+  .error {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 10px 12px;
+    border-radius: 4px;
+    margin-top: 8px;
+    font-weight: 500;
+    border: 1px solid #f5c6cb;
+  }
+  

@@ -17,7 +17,6 @@ const Navbar = ({ user, onLogout }) => {
 
   return (
     <nav className="navbar">
-
       <div className="nav-links">
 
         {/* Only show Users / Back to Login when NOT logged in */}
