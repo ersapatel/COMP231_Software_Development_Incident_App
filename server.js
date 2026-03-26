@@ -27,7 +27,7 @@ app.use('/api/incidents', incidentRoutes);
 
 // Default Message
 app.get('/', (req, res) => {
-    res.send({ message: 'Welcome to Code Crafters App'});
+    res.send({ message: 'Welcome to Incident Management App'});
 });
 
 mongoose
