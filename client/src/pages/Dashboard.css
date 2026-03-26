@@ -1,0 +1,39 @@
+/* Dashboard main container */
+.dashboard-container {
+    padding: 20px;
+    background: #fafafa;
+    min-height: 100vh;
+  }
+  
+  /* Title */
+  .dashboard-title {
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    color: #333;
+  }
+  
+  /* Create Incident Button */
+  .dashboard-create-btn {
+    padding: 8px 16px;
+    border: none;
+    background-color: #1976d2;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 1rem;
+    margin-bottom: 20px;
+  }
+  
+  .dashboard-create-btn:hover {
+    background-color: #155a9c;
+  }
+  
+  /* Section containing the incident list */
+  .dashboard-list-section {
+    margin-top: 10px;
+    background: white;
+    padding: 16px;
+    border-radius: 6px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  }
+  
