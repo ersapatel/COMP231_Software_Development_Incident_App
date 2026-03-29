@@ -12,82 +12,95 @@ const getAllIncidents = async (req, res) => {
 
 // GET Incident by id
 const getIncidentById = async (req, res) => {
-    try {
-        const id = req.params.id;
-        const incident = await Incidents.findById(id);
+  try {
+    const id = req.params.id;
+    const incident = await Incidents.findById(id);
 
-        if (!incident) {
-            return res.status(404).json({ message: 'Incident not found' });
-        }
-        res.json(incident);
-    } catch (err) {
-        res.status(400).json({ error: err.message });
+    if (!incident) {
+      return res.status(404).json({ message: 'Incident not found' });
     }
+
+    res.json(incident);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
 };
 
 // Create new incident
 const createIncident = async (req, res) => {
- try {
-
-  const newIncident = new Incidents(req.body);
-
-  const savedIncident = await newIncident.save();
-
-  res.status(201).json(savedIncident);
-
- } catch (err) {
-  res.status(400).json({ error: err.message });
- }
+  try {
+    const newIncident = new Incidents(req.body);
+    const savedIncident = await newIncident.save();
+    res.status(201).json(savedIncident);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
 };
 
-// Update Incident
+// Update Incident (FIXED)
 const updateIncident = async (req, res) => {
-    try {
-        const id = req.params.id;
-        const updatedIncident = await Incidents.findByIdAndUpdate(
-            id,
-            req.body,
-            { new: true, runValidators: true } 
-        );
+  try {
+    const id = req.params.id;
 
-        if (!updatedIncident) {
-            return res.status(404).json({ message: 'Incident not found'});
-        }
-if (req.user.role !== 'admin' && updatedIncident.reporterId !== String(req.user.userId)) {
-  return res.status(403).json({ message: 'Forbidden. Not the reporter.' });
-}
-    
-  res.json(updatedIncident);
-    } catch (err) {
-        res.status(400).json( { error: err.message });
+    const incident = await Incidents.findById(id);
+
+    if (!incident) {
+      return res.status(404).json({ message: 'Incident not found' });
     }
+
+    if (
+      req.user.role !== 'admin' &&
+      String(incident.reporterId) !== String(req.user.userId)
+    ) {
+      return res.status(403).json({ message: 'Forbidden. Not allowed to update' });
+    }
+
+    const updatedIncident = await Incidents.findByIdAndUpdate(
+      id,
+      req.body,
+      { new: true, runValidators: true }
+    );
+
+    res.json(updatedIncident);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
 };
 
-// Delete Incident by ID
+// Delete Incident by ID (FIXED)
 const deleteIncidentById = async (req, res) => {
-    try {
-        const id = req.params.id;
-        const deteleIncident = await Incidents.findByIdAndDelete(id);
+  try {
+    const id = req.params.id;
 
-        if (!deteleIncident) {
-        return res.status(404).json({ message: 'Incident not found' });
-        }
+    const incident = await Incidents.findById(id);
 
-        res.json(deteleIncident);
-    } catch (err) {
-        res.status(400).json( { error: err.message });
+    if (!incident) {
+      return res.status(404).json({ message: 'Incident not found' });
     }
+
+    if (
+      req.user.role !== 'admin' &&
+      String(incident.reporterId) !== String(req.user.userId)
+    ) {
+      return res.status(403).json({ message: 'Forbidden. Not allowed to delete' });
+    }
+
+    await Incidents.findByIdAndDelete(id);
+
+    res.json({ message: 'Incident deleted successfully' });
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
 };
 
 // Delete all incidents
 const deleteAllIncidents = async (req, res) => {
-    try {
-        const deteleAllIncidents = await Incidents.deleteMany({});
-
-        res.json(deteleAllIncidents);
-    } catch (err) {
-        res.status(400).json( { error: err.message });
-    }
+  try {
+    const deteleAllIncidents = await Incidents.deleteMany({});
+    res.json(deteleAllIncidents);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
 };
 
 export default { 
