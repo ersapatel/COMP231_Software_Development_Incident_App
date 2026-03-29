@@ -10,18 +10,6 @@ const IncidentList = ({ token }) => {
   const [incidentToDelete, setIncidentToDelete] = useState(null);
   const navigate = useNavigate();
 
-  // ✅ استخراج user id من التوكن
-  const getUserIdFromToken = () => {
-    try {
-      const payload = JSON.parse(atob(token.split(".")[1]));
-      return payload.id;
-    } catch (e) {
-      return null;
-    }
-  };
-
-  const currentUserId = getUserIdFromToken();
-
   const fetchUsers = async () => {
     try {
       const res = await fetch(`${API_BASE}/api/users`);
@@ -56,12 +44,7 @@ const IncidentList = ({ token }) => {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });
-
-      if (!res.ok) {
-        alert("You are not allowed to delete this incident");
-        return;
-      }
-
+      if (!res.ok) throw new Error("Error deleting incident");
       setIncidents((prev) => prev.filter((i) => i._id !== id));
     } catch (err) {
       console.error("Delete failed:", err);
@@ -87,10 +70,10 @@ const IncidentList = ({ token }) => {
   const formatDate = (value) => {
     if (!value) return "-";
     const dateOnly = value.slice(0, 10);
-
+  
     const [year, month, day] = dateOnly.split("-");
     const d = new Date(Number(year), Number(month) - 1, Number(day));
-
+  
     return d.toLocaleDateString("en-US", {
       year: "numeric",
       month: "long",
@@ -98,6 +81,7 @@ const IncidentList = ({ token }) => {
     });
   };
 
+    //the reporter name
   const getReporterName = (id) => {
     const user = users.find((u) => u._id === id);
     return user ? `${user.firstName} ${user.lastName}` : "Reporter Not Found";
@@ -133,26 +117,19 @@ const IncidentList = ({ token }) => {
                 <td>{formatDate(inc.dateReported)}</td>
                 <td>{inc.place}</td>
                 <td>{inc.severity}</td>
-
                 <td className="incident-actions">
-                  {/* ✅ يظهر فقط لصاحب الـ incident */}
-                  {inc.reporterId === currentUserId && (
-                    <>
-                      <button
-                        className="incident-btn incident-btn-edit"
-                        onClick={() => navigate(`/incidents/${inc._id}/edit`)}
-                      >
-                        Edit
-                      </button>
-
-                      <button
-                        className="incident-btn incident-btn-delete"
-                        onClick={() => openDeleteModal(inc)}
-                      >
-                        Delete
-                      </button>
-                    </>
-                  )}
+                  <button
+                    className="incident-btn incident-btn-edit"
+                    onClick={() => navigate(`/incidents/${inc._id}/edit`)}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className="incident-btn incident-btn-delete"
+                    onClick={() => openDeleteModal(inc)}
+                  >
+                    Delete
+                  </button>
                 </td>
               </tr>
             ))}
@@ -160,6 +137,7 @@ const IncidentList = ({ token }) => {
         </table>
       )}
 
+      {/* Confirmation Modal */}
       {showModal && incidentToDelete && (
         <div className="incident-modal-backdrop">
           <div className="incident-modal">
