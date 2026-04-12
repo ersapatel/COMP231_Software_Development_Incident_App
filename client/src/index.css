@@ -123,3 +123,13 @@ button:focus-visible {
 .createIncidentBtn {
   margin-top: 10px;
 }
+
+.forgetPasswordLink {
+  margin-bottom: 10px;
+  text-align: center;
+  text-decoration: underline;
+}
+
+.forgetPasswordLink:hover {
+  cursor: pointer;
+}

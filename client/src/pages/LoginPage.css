@@ -9,7 +9,8 @@
 
 /* Page header text for Login / Register */
 .login header,
-.register header {
+.register header,
+.ForgetPassword header {
   text-align: center;
   margin-bottom: 2rem;
 }

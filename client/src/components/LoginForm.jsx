@@ -63,6 +63,11 @@ const LoginForm = ({ onLogin }) => {
         required
       />
       {error && <p className="error">{error}</p>}
+      <span
+       className="forgetPasswordLink"
+       onClick={() => navigate('/forgetPassword')}>
+       Forget Password?
+      </span>
       <button type="submit">Login</button>
       <button type="button" className="registerBtn" onClick={() => navigate('/register')}>Register</button>
     </form>

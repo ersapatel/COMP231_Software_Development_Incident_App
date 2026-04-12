@@ -4,6 +4,7 @@ import Dashboard from './pages/Dashboard.jsx';
 import { Routes, Route, Navigate } from "react-router-dom";
 
 import Register from "./pages/RegisterPage.jsx";
+import ForgetPassword from "./pages/ForgetPasswordPage.jsx";
 import Login from "./pages/LoginPage.jsx";
 import Users from "./pages/Users.jsx";
 
@@ -41,6 +42,7 @@ function App() {
         <Route path="/" element={<Navigate to="/login" replace />} />
         <Route path="/login" element={<Login onLogin={setUser} />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/forgetPassword" element={<ForgetPassword />}/>
         <Route path="/users" element={<Users />} />
 
         {!loading && (
