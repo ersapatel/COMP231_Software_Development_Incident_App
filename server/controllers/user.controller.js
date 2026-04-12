@@ -1,4 +1,5 @@
 import Users from '../models/user.js';
+import bcrypt from 'bcrypt';
 
 // GET all users
 const getAllUsers = async (req, res) => {
@@ -45,14 +46,25 @@ const createUser = async (req, res) => {
 const updateUser = async (req, res) => {
     try {
         const id = req.params.id;
+        const updateData = { ...req.body };
+
+        if (updateData.password) {
+            const saltRounds = 10;
+            updateData.password = await bcrypt.hash(updateData.password, saltRounds);
+        }
+
+        console.log("REQ BODY:", req.body);
+        console.log("BEFORE HASH:", updateData.password);
+        console.log("AFTER HASH:", updateData.password);
+
         const updatedUser = await Users.findByIdAndUpdate(
             id,
-            req.body,
-            { new: true, runValidators: true } 
+            updateData,
+            { new: true, runValidators: true }
         );
 
         if (!updatedUser) {
-            return res.status(404).json({ message: 'User not found'});
+            return res.status(404).json({ message: 'User not found' });
         }
 
         res.json(updatedUser);

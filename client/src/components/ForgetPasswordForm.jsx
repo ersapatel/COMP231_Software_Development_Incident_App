@@ -32,20 +32,32 @@ const ForgetPasswordForm = () => {
         }
 
         try {
-            const userIdByEmail = await fetch(`${API_BASE}/api/users/findUserIdByEmail`, {
+                const userIdByEmail = await fetch(`${API_BASE}/api/users/findUserIdByEmail`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email })
             });
-            const { id } = await userIdByEmail.json();
+
+            const userResult = await userIdByEmail.json();
+
+            if (!userIdByEmail.ok) {
+                throw new Error(userResult.message || userResult.error || 'User not found');
+            }
+
+            const { id } = userResult;
+
             const updateUser = await fetch(`${API_BASE}/api/users/${id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ password }),
-            })
+            });
+
+            const updateResult = await updateUser.json();
+
             if (!updateUser.ok) {
-                throw new Error(data.message || 'User update failed');
+                throw new Error(updateResult.message || updateResult.error || 'User update failed');
             }
+
             setSuccess('You have updated password successfully! Now login.');
             clearForm();
         } catch (err) {
