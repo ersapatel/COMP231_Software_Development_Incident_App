@@ -10,5 +10,6 @@ router.post('/', usersCtrl.createUser);
 router.put('/:id', usersCtrl.updateUser);
 router.delete('/:id', usersCtrl.deleteUserById);
 router.delete('/', usersCtrl.deleteAllUsers);
+router.post('/findUserIdByEmail', usersCtrl.findUserIdByEmail);
 
 export default router;

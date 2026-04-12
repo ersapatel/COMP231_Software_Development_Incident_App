@@ -88,4 +88,20 @@ const deleteAllUsers = async (req, res) => {
     }
 };
 
-export default { getAllUsers, getUserById, createUser, updateUser, deleteUserById, deleteAllUsers }
+// Find user Id By email
+const findUserIdByEmail = async (req, res) => {
+    try {
+        const { email } = req.body;
+        const user = await Users.findOne({email});
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found"});
+        }
+
+        res.json({id: user._id});
+    } catch (err) {
+        res.status(400).json( { error: err.message });
+    }
+}
+
+export default { getAllUsers, getUserById, createUser, updateUser, deleteUserById, deleteAllUsers, findUserIdByEmail }
