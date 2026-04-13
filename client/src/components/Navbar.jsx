@@ -5,7 +5,6 @@ const Navbar = ({ user, onLogout }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const isUsersPage = location.pathname === "/users";
   const isLoginPage = location.pathname === "/login";
 
   const getInitials = () => {
@@ -15,46 +14,33 @@ const Navbar = ({ user, onLogout }) => {
     return (first + last).toUpperCase();
   };
 
+  if (!user || isLoginPage) return null;
+
   return (
     <nav className="navbar">
       <div className="nav-links">
-
-        {/* Only show Users / Back to Login when NOT logged in */}
-        {!user && (
-          <>
-            {isUsersPage ? (
-              <button onClick={() => navigate('/login')}>
-                Back to Login
-              </button>
-            ) : (
-              <button onClick={() => navigate('/users')}>
-                Users
-              </button>
-            )}
-          </>
-        )}
-
-        {/* Avatar + Logout only when logged in AND not currently on login page */}
-        {user && !isLoginPage && (
-          <div className="nav-user-area">
-            <div
-              className="nav-avatar"
-              title={`${user.firstName} ${user.lastName}`}
-            >
-              {getInitials()}
-            </div>
-
-            <button
-              className="nav-logout-btn"
-              onClick={() => {
-                onLogout();
-                navigate('/login');
-              }}
-            >
-              Logout
-            </button>
+        <div className="nav-user-area">
+          <div
+            className="nav-avatar"
+            title={`${user.firstName} ${user.lastName}`}
+          >
+            {getInitials()}
           </div>
-        )}
+
+          <span className="nav-username">
+            {user.firstName} {user.lastName}
+          </span>
+
+          <button
+            className="nav-logout-btn"
+            onClick={() => {
+              onLogout();
+              navigate("/login");
+            }}
+          >
+            Logout
+          </button>
+        </div>
       </div>
     </nav>
   );

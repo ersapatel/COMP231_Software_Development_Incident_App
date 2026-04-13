@@ -43,7 +43,7 @@ function App() {
         <Route path="/login" element={<Login onLogin={setUser} />} />
         <Route path="/register" element={<Register />} />
         <Route path="/forgetPassword" element={<ForgetPassword />}/>
-        <Route path="/users" element={<Users />} />
+        {/* <Route path="/users" element={<Users />} /> */}
 
         {!loading && (
           <>

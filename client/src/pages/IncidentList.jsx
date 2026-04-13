@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "./IncidentList.css";
 import API_BASE from "../apiBase";
 
-const IncidentList = ({ token }) => {
+const IncidentList = ({ token, user }) => {
   const [incidents, setIncidents] = useState([]);
   const [users, setUsers] = useState([]);
   const [showModal, setShowModal] = useState(false);
@@ -12,7 +12,9 @@ const IncidentList = ({ token }) => {
 
   const fetchUsers = async () => {
     try {
-      const res = await fetch(`${API_BASE}/api/users`);
+      const res = await fetch(`${API_BASE}/api/users`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       const data = await res.json();
       setUsers(data);
     } catch (err) {
@@ -26,17 +28,27 @@ const IncidentList = ({ token }) => {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
-      setIncidents(data);
+
+      if (user?.role === "admin") {
+        setIncidents(data);
+      } else {
+        const filteredIncidents = data.filter(
+          (incident) => incident.reporterId === user?._id
+        );
+        setIncidents(filteredIncidents);
+      }
     } catch (err) {
       console.error("Error fetching incidents:", err);
     }
   };
 
   useEffect(() => {
-    fetchUsers();
-    fetchIncidents();
+    if (token && user) {
+      fetchUsers();
+      fetchIncidents();
+    }
     // eslint-disable-next-line
-  }, []);
+  }, [token, user]);
 
   const handleDelete = async (id) => {
     try {
@@ -44,7 +56,9 @@ const IncidentList = ({ token }) => {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });
+
       if (!res.ok) throw new Error("Error deleting incident");
+
       setIncidents((prev) => prev.filter((i) => i._id !== id));
     } catch (err) {
       console.error("Delete failed:", err);
@@ -69,11 +83,11 @@ const IncidentList = ({ token }) => {
 
   const formatDate = (value) => {
     if (!value) return "-";
+
     const dateOnly = value.slice(0, 10);
-  
     const [year, month, day] = dateOnly.split("-");
     const d = new Date(Number(year), Number(month) - 1, Number(day));
-  
+
     return d.toLocaleDateString("en-US", {
       year: "numeric",
       month: "long",
@@ -81,15 +95,19 @@ const IncidentList = ({ token }) => {
     });
   };
 
-    //the reporter name
   const getReporterName = (id) => {
-    const user = users.find((u) => u._id === id);
-    return user ? `${user.firstName} ${user.lastName}` : "Reporter Not Found";
+    const matchedUser = users.find((u) => u._id === id);
+    return matchedUser
+      ? `${matchedUser.firstName} ${matchedUser.lastName}`
+      : "Reporter Not Found";
   };
+
+  const tableTitle =
+    user?.role === "admin" ? "All Incidents" : "My Incidents";
 
   return (
     <div className="incident-container">
-      <h3 className="incident-title">All Incidents</h3>
+      <h3 className="incident-title">{tableTitle}</h3>
 
       {incidents.length === 0 ? (
         <p className="incident-empty">No incidents found.</p>
@@ -137,7 +155,6 @@ const IncidentList = ({ token }) => {
         </table>
       )}
 
-      {/* Confirmation Modal */}
       {showModal && incidentToDelete && (
         <div className="incident-modal-backdrop">
           <div className="incident-modal">
