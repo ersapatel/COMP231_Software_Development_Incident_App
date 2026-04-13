@@ -44,28 +44,33 @@ const createUser = async (req, res) => {
 
 // Update User
 const updateUser = async (req, res) => {
-  try {
-    const id = req.params.id;
+    try {
+        const id = req.params.id;
+        const updateData = { ...req.body };
 
-    const updateData = {
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
-    };
+        if (updateData.password) {
+            const saltRounds = 10;
+            updateData.password = await bcrypt.hash(updateData.password, saltRounds);
+        }
 
-    const updatedUser = await Users.findByIdAndUpdate(
-      id,
-      updateData,
-      { new: true, runValidators: true }
-    ).select("-password");
+        console.log("REQ BODY:", req.body);
+        console.log("BEFORE HASH:", updateData.password);
+        console.log("AFTER HASH:", updateData.password);
 
-    if (!updatedUser) {
-      return res.status(404).json({ message: "User not found" });
+        const updatedUser = await Users.findByIdAndUpdate(
+            id,
+            updateData,
+            { new: true, runValidators: true }
+        );
+
+        if (!updatedUser) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        res.json(updatedUser);
+    } catch (err) {
+        res.status(400).json( { error: err.message });
     }
-
-    res.json(updatedUser);
-  } catch (err) {
-    res.status(400).json({ error: err.message });
-  }
 };
 
 //Delete user by id
