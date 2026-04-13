@@ -4,7 +4,7 @@ import bcrypt from 'bcrypt';
 // GET all users
 const getAllUsers = async (req, res) => {
   try {
-    const users = await Users.find();
+    const users = await Users.find().select("-password");
     res.json(users);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -13,18 +13,18 @@ const getAllUsers = async (req, res) => {
 
 // GET User by id
 const getUserById = async (req, res) => {
-    try {
-        const id = req.params.id;
-        const user = await Users.findById(id);
+  try {
+    const id = req.params.id;
+    const user = await Users.findById(id).select("-password");
 
-        if (!user) {
-            return res.status(404).json({ message: 'User not found' });
-        }
-
-        res.json(user);
-    } catch (err) {
-        res.status(400).json({ error: err.message });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
     }
+
+    res.json(user);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
 };
 
 // Create new user
@@ -44,49 +44,44 @@ const createUser = async (req, res) => {
 
 // Update User
 const updateUser = async (req, res) => {
-    try {
-        const id = req.params.id;
-        const updateData = { ...req.body };
+  try {
+    const id = req.params.id;
 
-        if (updateData.password) {
-            const saltRounds = 10;
-            updateData.password = await bcrypt.hash(updateData.password, saltRounds);
-        }
+    const updateData = {
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+    };
 
-        console.log("REQ BODY:", req.body);
-        console.log("BEFORE HASH:", updateData.password);
-        console.log("AFTER HASH:", updateData.password);
+    const updatedUser = await Users.findByIdAndUpdate(
+      id,
+      updateData,
+      { new: true, runValidators: true }
+    ).select("-password");
 
-        const updatedUser = await Users.findByIdAndUpdate(
-            id,
-            updateData,
-            { new: true, runValidators: true }
-        );
-
-        if (!updatedUser) {
-            return res.status(404).json({ message: 'User not found' });
-        }
-
-        res.json(updatedUser);
-    } catch (err) {
-        res.status(400).json( { error: err.message });
+    if (!updatedUser) {
+      return res.status(404).json({ message: "User not found" });
     }
+
+    res.json(updatedUser);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
 };
 
 //Delete user by id
 const deleteUserById = async (req, res) => {
-    try {
-        const id = req.params.id;
-        const deteleUser = await Users.findByIdAndDelete(id);
+  try {
+    const id = req.params.id;
+    const deletedUser = await Users.findByIdAndDelete(id);
 
-        if (!deteleUser) {
-        return res.status(404).json({ message: 'User not found' });
-        }
-
-        res.json(deteleUser);
-    } catch (err) {
-        res.status(400).json( { error: err.message });
+    if (!deletedUser) {
+      return res.status(404).json({ message: "User not found" });
     }
+
+    res.json({ message: "User deleted successfully" });
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
 };
 
 //Delete all users

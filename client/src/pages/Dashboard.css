@@ -37,3 +37,32 @@
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
   }
   
+
+  /* Admin tabs container */
+.dashboard-tabs {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+/* Individual tab button */
+.dashboard-tab {
+  padding: 10px 18px;
+  border: none;
+  background-color: #e0e0e0;
+  color: #333;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: background-color 0.2s ease;
+}
+
+.dashboard-tab:hover {
+  background-color: #d5d5d5;
+}
+
+/* Active tab */
+.active-tab {
+  background-color: #1976d2;
+  color: white;
+}
