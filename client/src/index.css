@@ -66,15 +66,16 @@ button:focus-visible {
   }
 }
 
-
 .navbar {
   display: flex;
-  justify-content: space-between;
-  padding: 1rem 2rem;
-  background-color: #0a81e9;
-  color: white;
   align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
+  background-color: #0d83f5;
+  min-height: 64px;
+  box-sizing: border-box;
 }
+
 .nav-links a, .nav-links span {
   margin-left: 1rem;
   color: #ffa600f1;

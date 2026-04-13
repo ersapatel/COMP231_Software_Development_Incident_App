@@ -7,6 +7,7 @@ const Navbar = ({ user, onLogout }) => {
 
   const isUsersPage = location.pathname === "/users";
   const isLoginPage = location.pathname === "/login";
+  const isReportPage = location.pathname === "/incidents/report";
 
   const getInitials = () => {
     if (!user) return "";
@@ -25,14 +26,21 @@ const Navbar = ({ user, onLogout }) => {
             {isUsersPage ? (
               <button onClick={() => navigate('/login')}>
                 Back to Login
-              </button>
-            ) : (
-              <button onClick={() => navigate('/users')}>
-                Users
-              </button>
-            )}
+          </button>
+        ) : (
+          <button onClick={() => navigate('/users')}>
+            Users
+          </button>
+        )}
           </>
         )}
+
+        {isReportPage ? (
+          <button onClick={() => navigate('/dashboard')}>
+            Back to Dashboard
+          </button>
+        ) : null
+        }
 
         {/* Avatar + Logout only when logged in AND not currently on login page */}
         {user && !isLoginPage && (

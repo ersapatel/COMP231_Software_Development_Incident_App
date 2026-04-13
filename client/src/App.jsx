@@ -11,8 +11,10 @@ import Users from "./pages/Users.jsx";
 import IncidentList from "./pages/IncidentList.jsx";
 import CreateIncident from "./pages/CreateIncident.jsx";
 import UpdateIncident from "./pages/UpdateIncident.jsx";
+import ViewReport from "./pages/viewReport.jsx";
 
 import ProtectedRoute from './components/ProtectedRoute.jsx';
+import { IncidentProvider } from "./context/IncidentContext.jsx";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -38,41 +40,50 @@ function App() {
     <>
       <Navbar user={user} onLogout={handleLogout} />
 
-      <Routes>
-        <Route path="/" element={<Navigate to="/login" replace />} />
-        <Route path="/login" element={<Login onLogin={setUser} />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/forgetPassword" element={<ForgetPassword />}/>
-        <Route path="/users" element={<Users />} />
+      <IncidentProvider user={user}>
+        <Routes>
+          <Route path="/" element={<Navigate to="/login" replace />} />
+          <Route path="/login" element={<Login onLogin={setUser} />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/forgetPassword" element={<ForgetPassword />}/>
+          <Route path="/users" element={<Users />} />
 
-        {!loading && (
-          <>
-            <Route path="/dashboard" element= {
-              <ProtectedRoute user={user}>
-                <Dashboard user={user} />
-              </ProtectedRoute>
-            } />
+          {!loading && (
+            <>
+              <Route path="/dashboard" element= {
+                <ProtectedRoute user={user}>
+                  <Dashboard user={user} />
+                </ProtectedRoute>
+              } />
 
-            <Route path="/incidents" element= {
-              <ProtectedRoute user={user}>
-                <IncidentList />
-              </ProtectedRoute>
-            } />
+              <Route path="/incidents" element= {
+                <ProtectedRoute user={user}>
+                  <IncidentList />
+                </ProtectedRoute>
+              } />
 
-            <Route path="/incidents/create" element={
-              <ProtectedRoute user={user}>
-                <CreateIncident user={user} />
-              </ProtectedRoute>
-            } />
-            
-            <Route path="/incidents/:id/edit" element={
-              <ProtectedRoute user={user}>
-                <UpdateIncident />
-              </ProtectedRoute>
-            } />
-          </>
-        )}
-      </Routes>
+              <Route path="/incidents/create" element={
+                <ProtectedRoute user={user}>
+                  <CreateIncident user={user} />
+                </ProtectedRoute>
+              } />
+
+              <Route path="/incidents/report" element={
+                <ProtectedRoute user={user}>
+                  <ViewReport user={user} />
+                </ProtectedRoute>
+              } />
+              
+              
+              <Route path="/incidents/:id/edit" element={
+                <ProtectedRoute user={user}>
+                  <UpdateIncident />
+                </ProtectedRoute>
+              } />
+            </>
+          )}
+        </Routes>
+      </IncidentProvider>
     </>
   );
 }

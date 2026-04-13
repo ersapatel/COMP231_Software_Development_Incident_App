@@ -19,6 +19,13 @@ const Dashboard = ({ user }) => {
             Create New Incident
           </button>
 
+          <button
+            className="view-incident-report-btn"
+            onClick={() => navigate("/incidents/report")}
+          >
+            View Incident Report
+          </button>
+
           <div className="dashboard-list-section">
             <IncidentList token={token} />
           </div>
