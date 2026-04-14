@@ -1,17 +1,66 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import IncidentList from "./IncidentList";
+import ViewReport from "./ViewReport";
 import Users from "./Users";
 import "./Dashboard.css";
+import API_BASE from "../apiBase";
 
 const Dashboard = ({ user }) => {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const [activeTab, setActiveTab] = useState("incidents");
+  const [incidents, setIncidents] = useState([]);
+  const [users, setUsers] = useState([]);
 
   if (!user) return null;
 
   const isAdmin = user.role === "admin";
+  console.log("incidents in Dashboard:", incidents);
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const res = await fetch(`${API_BASE}/api/users`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        const data = await res.json();
+        setUsers(Array.isArray(data) ? data : []);
+      } catch (err) {
+        console.error("Error fetching users:", err);
+      }
+    };
+
+    const fetchIncidents = async () => {
+      try {
+        const res = await fetch(`${API_BASE}/api/incidents`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        const data = await res.json();
+
+        if (!Array.isArray(data)) {
+          setIncidents([]);
+          return;
+        }
+
+        if (user?.role === "admin") {
+          setIncidents(data);
+        } else {
+          const filteredIncidents = data.filter(
+            (incident) => incident.reporterId === user?.id
+          );
+          setIncidents(filteredIncidents);
+        }
+      } catch (err) {
+        console.error("Error fetching incidents:", err);
+      }
+    };
+
+    if (token && user) {
+      fetchUsers();
+      fetchIncidents();
+    }
+  }, [token, user]);
 
   return (
     <div className="dashboard-container">
@@ -74,8 +123,7 @@ const Dashboard = ({ user }) => {
 
             {activeTab === "reports" && (
               <div>
-                <h4>Reports</h4>
-                <p>Reports content will be displayed here.</p>
+                <ViewReport incidents={incidents} />
               </div>
             )}
           </div>
