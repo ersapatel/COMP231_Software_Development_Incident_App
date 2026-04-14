@@ -4,9 +4,28 @@ const IncidentSchema = new mongoose.Schema({
   description: { type: String, required: true },
   dateOccured: { type: Date, required: true },
   dateReported: { type: Date, required: true },
-  reporterId: {type: String,required: true },
+  reporterId: { type: String, required: true },
   place: { type: String, required: true },
-  severity: {type: String, enum: ["High", "Medium", "Low"], required: true }
+  severity: {
+    type: String,
+    enum: ["High", "Medium", "Low"],
+    required: true,
+  },
+  status: {
+    type: String,
+    enum: ["TODO", "IN PROGRESS", "COMPLETED"],
+    default: "TODO",
+  },
+
+  assignee: {
+    type: String,
+    required: true,
+  },
+
+  note: {
+    type: String,
+    required: true,
+  },
 });
 
 const Incident = mongoose.model("Incident", IncidentSchema);
