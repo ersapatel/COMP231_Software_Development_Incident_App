@@ -97,4 +97,72 @@
     font-weight: 500;
     border: 1px solid #f5c6cb;
   }
-  
+
+  .create-incident-form textarea {
+  margin-bottom: 12px;
+  padding: 10px 12px;
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+  font-family: inherit;
+}
+
+.readonly-input {
+  background-color: #f3f3f3;
+  color: #555;
+  cursor: not-allowed;
+}
+
+.create-incident-form textarea {
+  margin-bottom: 12px;
+  padding: 10px 12px;
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+  font-family: inherit;
+}
+
+.readonly-input {
+  background-color: #f3f3f3;
+  color: #555;
+  cursor: not-allowed;
+}
+
+.note-counter {
+  font-size: 0.8rem;
+  color: #666;
+  margin-top: -8px;
+  margin-bottom: 8px;
+}
+
+.create-incident-form textarea {
+  margin-bottom: 12px;
+  padding: 10px 12px;
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+  font-family: inherit;
+}
+
+.note-counter {
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-top: -6px;
+  margin-bottom: 10px;
+  text-align: right;
+  color: #e3f2fd;
+}
+
+.note-counter.warning {
+  color: #ffd54f;
+}
+
+.note-counter.danger {
+  color: #ef5350;
+}

@@ -33,7 +33,8 @@ const IncidentList = ({ token, user }) => {
         setIncidents(data);
       } else {
         const filteredIncidents = data.filter(
-          (incident) => incident.reporterId === user?._id
+          (incident) =>
+            String(incident.reporterId) === String(user?._id || user?.id)
         );
         setIncidents(filteredIncidents);
       }
@@ -122,6 +123,9 @@ const IncidentList = ({ token, user }) => {
               <th>Date Reported</th>
               <th>Place</th>
               <th>Severity</th>
+              <th>Status</th>
+              <th>Assignee</th>
+              <th>Note</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -135,6 +139,9 @@ const IncidentList = ({ token, user }) => {
                 <td>{formatDate(inc.dateReported)}</td>
                 <td>{inc.place}</td>
                 <td>{inc.severity}</td>
+                <td>{inc.status || "-"}</td>
+                <td>{inc.assignee || "-"}</td>
+                <td>{inc.note || "-"}</td>
                 <td className="incident-actions">
                   <button
                     className="incident-btn incident-btn-edit"
